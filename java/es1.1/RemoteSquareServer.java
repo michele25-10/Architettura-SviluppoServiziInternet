@@ -29,12 +29,18 @@ public class RemoteSquareServer {
                 // Leggo in loop gli input lanciati dal mio client
                 String line; 
                 while((line = netIn.readLine()) != null) {  
-                    int n = Integer.parseInt(line); 
-                    int result = n * n;  
-    
-                    netOut.write(""+result);
-                    netOut.newLine();
-                    netOut.flush();                
+                    try {
+                        int n = Integer.parseInt(line); 
+                        int result = n * n;  
+        
+                        netOut.write(""+result);
+                        netOut.newLine();
+                        netOut.flush(); 
+                    } catch (Exception e) {
+                        netOut.write("?");
+                        netOut.newLine();
+                        netOut.flush(); 
+                    }
                 }            
                 
                 s.close(); 

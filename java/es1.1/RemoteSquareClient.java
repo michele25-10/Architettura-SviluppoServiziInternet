@@ -24,19 +24,10 @@ class RemoteSquareClient {
             // creo canale per lettura da tastiera
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
             
-            int n = 0;
             String line = br.readLine();  
+
             // Esco dal ciclo quanod l'utente scrive fine
             while (!line.equals("fine")){ 
-                try{
-                    n = Integer.parseInt(line); 
-                }catch (Exception e){
-                    // Non ho ricevuto un numero, termino programma e chiudo socket
-                    System.err.println("Errore conversione in integer dell'input "+ line); 
-                    s.close(); 
-                    System.exit(2); 
-                }
-
                 // Invio al server
                 netOut.write(line);
                 netOut.newLine();
@@ -44,7 +35,13 @@ class RemoteSquareClient {
 
                 // condivido risultato
                 String lineSocket = netIn.readLine(); 
-                System.out.println("Risultato: "+ n + " * "+ n + " = " + lineSocket);  
+                // Controllo se il numero passato era un integer. 
+                // In caso contrario il server mi manda il punto di domanda
+                if(lineSocket.equals("?")){
+                    System.out.println("Errore: " + line + " Non è un numero"); 
+                } else {
+                    System.out.println("Risultato: "+ line + " * "+ line + " = " + lineSocket);  
+                }
                 
                 // Leggo nuova riga da tastiera
                 line = br.readLine(); 
