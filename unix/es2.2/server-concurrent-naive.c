@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     // Risoluzione dell'indirizzo locale e della porta
     if ((err = getaddrinfo(NULL, argv[1], &hints, &res)) != 0)
     {
-        fprintf(stderr, "Errore nella configurazione dell’indirizzo: %s\n", gai_strerror(err));
+        fprintf(stderr, "Errore nella configurazione dell'indirizzo: %s\n", gai_strerror(err));
         exit(EXIT_FAILURE);
     }
 
