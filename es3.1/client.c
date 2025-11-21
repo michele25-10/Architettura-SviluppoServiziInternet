@@ -48,7 +48,7 @@ int main(int argc, char **argv)
             continue;
         }
 
-        if (connect(sd, ptr->ai_address, ptr->ai_addrlen) == 0)
+        if (connect(sd, ptr->ai_addr, ptr->ai_addrlen) == 0)
         {
             printf("\nConnessione avvenuta con successo!\n");
             break;
