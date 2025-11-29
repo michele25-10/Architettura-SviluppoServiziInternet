@@ -36,7 +36,6 @@ int main(int argc, char **argv)
     struct addrinfo hints, *res;
     int err, sd, ns, pid, on;
     struct sigaction sa;
-    rxb_t rxb;
 
     if (argc != 2)
     {
@@ -142,7 +141,7 @@ int main(int argc, char **argv)
                 memset(option, 0, sizeof(option));
                 option_len = sizeof(option) - 1;
 
-                if (rxb_readline(&rxb, sd, option, &option_len) < 0)
+                if (rxb_readline(&rxb, ns, option, &option_len) < 0)
                 {
                     rxb_destroy(&rxb);
                     break;
@@ -169,7 +168,7 @@ int main(int argc, char **argv)
                     if (dup(ns) < 0)
                     {
                         perror("dup");
-                        exit("EXIT_FAILURE");
+                        exit(EXIT_FAILURE);
                     }
 
                     close(ns);
@@ -191,7 +190,7 @@ int main(int argc, char **argv)
                 // Attendo che invii la risposta
                 wait(&status);
 
-                if (write_all(ns, end_request, strlen(end_request)) < 0)
+                if (write_all(ns, end_request, sizeof(end_request)) < 0)
                 {
                     perror("write");
                     exit(EXIT_FAILURE);

@@ -1,11 +1,10 @@
-version: "3.8"
-
 services:
   gcc_env:
-    image: gcc:latest # Usa l'immagine ufficiale di GCC
+    build: .
+    image: gcc_unix_debian:11
     container_name: gcc_container
     volumes:
-      - ./unix:/unix
-    working_dir: /unix # Imposta la directory di lavoro
-    stdin_open: true # Mantiene lo stdin aperto per interazione
-    tty: true # Abilita un terminale interattivo
+      - ./:/unix
+    working_dir: /unix
+    stdin_open: true
+    tty: true
