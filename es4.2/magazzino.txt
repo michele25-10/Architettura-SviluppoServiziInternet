@@ -1,0 +1,11 @@
+Barolo                               12    2016    38.50    Piemonte        Rosso
+Chianti Classico                     25    2020    12.90    Toscana         Rosso
+Prosecco Superiore DOCG              40    2022     9.50    Veneto          Bianco
+Montepulciano d'Abruzzo              18    2018    14.00    Abruzzo         Rosso
+Verdicchio dei Castelli di Jesi      30    2021    11.20    Marche          Bianco
+Amarone della Valpolicella            5    2015    62.00    Veneto          Rosso
+Franciacorta Brut                    16    2020    24.50    Lombardia       Spumante
+Lambrusco Grasparossa                22    2022     7.80    Emilia-Romagna  Rosso
+Fiano di Avellino                    14    2019    17.50    Campania        Bianco
+Cannonau di Sardegna                 20    2020    13.90    Sardegna        Rosso
+Barolo                               1     2014    58.50    Piemonte        Rosso

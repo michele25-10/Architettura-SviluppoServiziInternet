@@ -19,12 +19,10 @@
 
 #define MAX_REQUEST_SIZE (64 * 1024)
 
-/** SIGCHLD handler */
 void handler(int signo)
 {
     int status;
     (void)signo;
-
     while (waitpid(-1, &status, WNOHANG) > 0)
     {
         continue;
@@ -33,13 +31,13 @@ void handler(int signo)
 
 int main(int argc, char **argv)
 {
-    int pid, ns, sd, err, on;
+    int sd, err, ns, pid, on;
     struct addrinfo hints, *res;
     struct sigaction sa;
 
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: server-td-concurrent <porta>\n");
+        fprintf(stdout, "Usage: server-connreuse-td-concurrent <porta>\n");
         exit(EXIT_FAILURE);
     }
 
@@ -48,8 +46,7 @@ int main(int argc, char **argv)
     sigemptyset(&sa.sa_mask);
     sa.sa_handler = handler;
     sa.sa_flags = SA_RESTART;
-
-    if (sigaction(SIGCHLD, &sa, NULL) == -1)
+    if (sigaction(SIGCHLD, &sa, NULL) < 0)
     {
         perror("sigaction");
         exit(EXIT_FAILURE);
@@ -62,7 +59,7 @@ int main(int argc, char **argv)
 
     if ((err = getaddrinfo(NULL, argv[1], &hints, &res)) < 0)
     {
-        fprintf(stderr, "Errore resolution naming\n");
+        fprintf(stderr, "Errore Resolution Naming\n");
         exit(EXIT_FAILURE);
     }
 
@@ -73,7 +70,7 @@ int main(int argc, char **argv)
     }
 
     on = 1;
-    if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) == -1)
+    if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) < 0)
     {
         perror("setsockopt");
         exit(EXIT_FAILURE);
@@ -100,6 +97,7 @@ int main(int argc, char **argv)
         if ((ns = accept(sd, NULL, NULL)) < 0)
         {
             perror("accept");
+            exit(EXIT_FAILURE);
         }
 
         if ((pid = fork()) < 0)
@@ -109,21 +107,19 @@ int main(int argc, char **argv)
         }
         else if (pid == 0)
         {
-            /* FIGLIO */
-            rxb_t rxb;
-            char category[1024];
-            size_t len_category;
-            char *end_response = "\n--- END RESPONSE ---\n";
             int pid2, pid3, status;
             int p2p3[2];
+            char vine[1024], year[1024];
+            char *end_response = "\n--- END RESPONSE ---\n";
+            size_t len_vine, len_year;
+            rxb_t rxb;
 
             close(sd);
 
             memset(&sa, 0, sizeof(sa));
             sigemptyset(&sa.sa_mask);
-            sa.sa_handler = SIG_DFL;
-
-            if (sigaction(SIGCHLD, &sa, NULL) == -1)
+            sa.sa_handler = SIG_IGN;
+            if (sigaction(SIGCHLD, &sa, NULL) < 0)
             {
                 perror("sigaction");
                 exit(EXIT_FAILURE);
@@ -133,9 +129,9 @@ int main(int argc, char **argv)
 
             for (;;)
             {
-                memset(category, 0, sizeof(category));
-                len_category = sizeof(category) - 1;
-                if (rxb_readline(&rxb, ns, category, &len_category) < 0)
+                memset(vine, 0, sizeof(vine));
+                len_vine = sizeof(vine) - 1;
+                if (rxb_readline(&rxb, ns, vine, &len_vine) < 0)
                 {
                     perror("read");
                     rxb_destroy(&rxb);
@@ -143,7 +139,7 @@ int main(int argc, char **argv)
                 }
 
 #ifdef USE_LIBUNISTRING
-                if (u8_check((uint8_t *)category, len_category) != NULL)
+                if (u8_check((uint8_t *)vine, len_vine) != NULL)
                 {
                     fprintf(stderr, "Request is not valid UTF-8!\n");
                     close(ns);
@@ -151,8 +147,26 @@ int main(int argc, char **argv)
                 }
 #endif
 
-                /** ESECUZIONE DELLA LOGICA due processi P2 e P3*/
-                if ((err = pipe(p2p3)) < 0)
+                memset(year, 0, sizeof(year));
+                len_year = sizeof(year) - 1;
+                if (rxb_readline(&rxb, ns, year, &len_year) < 0)
+                {
+                    perror("read");
+                    rxb_destroy(&rxb);
+                    exit(EXIT_FAILURE);
+                }
+
+#ifdef USE_LIBUNISTRING
+                if (u8_check((uint8_t *)vine, len_vine) != NULL)
+                {
+                    fprintf(stderr, "Request is not valid UTF-8!\n");
+                    close(ns);
+                    exit(EXIT_SUCCESS);
+                }
+#endif
+
+                /** Da QUI parte la logica reale del server */
+                if (pipe(p2p3) < 0)
                 {
                     perror("pipe");
                     exit(EXIT_FAILURE);
@@ -160,44 +174,40 @@ int main(int argc, char **argv)
 
                 if ((pid2 = fork()) < 0)
                 {
-                    perror("fork pid2");
+                    perror("fork");
                     exit(EXIT_FAILURE);
                 }
                 else if (pid2 == 0)
                 {
-                    /**LOGICA ESEGUITA DA P2 */
-                    signal(SIGINT, SIG_DFL);
-
+                    /* NIPOTE 1 */
                     close(ns);
                     close(p2p3[0]);
                     close(1);
 
                     if (dup(p2p3[1]) < 0)
                     {
-                        perror("dup");
+                        perror("dup p2p3[1]");
                         exit(EXIT_FAILURE);
                     }
                     close(p2p3[1]);
 
-                    execlp("grep", "grep", category, "conto_corrente.txt", (char *)NULL);
-                    perror("execlp grep");
+                    execlp("grep", "grep", vine, "magazzino.txt", (char *)NULL);
+                    perror("execlp grep 1");
                     exit(EXIT_FAILURE);
                 }
 
                 if ((pid3 = fork()) < 0)
                 {
-                    perror("pid3");
+                    perror("fork");
                     exit(EXIT_FAILURE);
                 }
                 else if (pid3 == 0)
                 {
-                    signal(SIGINT, SIG_DFL);
-
                     close(p2p3[1]);
                     close(0);
                     if (dup(p2p3[0]) < 0)
                     {
-                        perror("dup");
+                        perror("dup p2p3[0]");
                         exit(EXIT_FAILURE);
                     }
                     close(p2p3[0]);
@@ -205,38 +215,36 @@ int main(int argc, char **argv)
                     close(1);
                     if (dup(ns) < 0)
                     {
-                        perror("dup");
+                        perror("dup ns");
                         exit(EXIT_FAILURE);
                     }
                     close(ns);
 
-                    execlp("sort", "sort", (char *)NULL);
-                    perror("execlp sort");
+                    execlp("grep", "grep", year, (char *)NULL);
+                    perror("execlp grep 2");
                     exit(EXIT_FAILURE);
                 }
 
+                /** PADRE */
                 close(p2p3[0]);
                 close(p2p3[1]);
 
                 wait(&status);
                 wait(&status);
 
-                fprintf(stdout, "DEBUG: Ho superato l'attesa\n");
-
                 if (write_all(ns, end_response, strlen(end_response)) < 0)
                 {
                     perror("write");
                     exit(EXIT_FAILURE);
                 }
-
-                fprintf(stdout, "DEBUG: Ho inviato la risposta di end_response\n");
             }
 
+            rxb_destroy(&rxb);
             close(ns);
             exit(EXIT_SUCCESS);
         }
 
-        /* PADRE */
+        /* NONNO */
         close(ns);
     }
 
