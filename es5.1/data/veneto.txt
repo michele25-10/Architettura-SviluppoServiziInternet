@@ -1,0 +1,10 @@
+85,Cortina d'Ampezzo,Tofane
+120,Arabba,Sella Ronda
+60,Alleghe,Civetta
+95,Falcade,San Pellegrino
+40,Asiago,Comprensorio di Asiago
+110,Malga Ciapela,Marmolada
+70,Sappada,Comprensorio Sappada
+55,Monte Bondone,Trentino
+90,San Vito di Cadore,Antelao
+30,Nevegal,Belluno

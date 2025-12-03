@@ -1,0 +1,10 @@
+150,Livigno,Cassa Bianca
+130,Bormio,Bormio Ski
+95,Aprica,Pisciadù
+80,Chiesa in Valmalenco,Alpe Palù
+60,Ponte di Legno,Adamello Ski
+110,Madesimo,Valchiavenna
+75,Foppolo,Brembo Ski
+50,Montecampione,Brescia Ski
+45,Colere,Orobie Ski
+100,Passo del Tonale,Adamello Ski
