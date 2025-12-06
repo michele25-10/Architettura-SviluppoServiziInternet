@@ -10,8 +10,7 @@
 void rxb_init(struct rx_buffer *buf, int buf_size)
 {
         buf->buffer = malloc(buf_size);
-        if (buf->buffer == NULL)
-        {
+        if (buf->buffer == NULL) {
                 perror("malloc");
                 exit(EXIT_FAILURE);
         }
@@ -33,20 +32,17 @@ int rxb_readline(struct rx_buffer *buf, int sock, void *dest_buf, size_t *dest_l
         ssize_t cc;
 
         /* Leggo i dati in un buffer */
-        do
-        {
+        do {
                 int left;
 
                 /* Controllo se ho ricevuto il terminatore '\n' */
                 term_ptr = memchr(buf->buffer, '\n', buf->bytes_received);
-                if (term_ptr != NULL)
-                {
+                if (term_ptr != NULL) {
                         /* Calcolo quanti dati devo copiare */
                         size_t to_copy = term_ptr - buf->buffer;
 
                         /* Verifico che dest sia sufficientement grande */
-                        if (*dest_len < to_copy)
-                        {
+                        if (*dest_len < to_copy) {
                                 fprintf(stderr, "Buffer too small!\n");
                                 close(sock);
                                 exit(EXIT_FAILURE);
@@ -58,8 +54,7 @@ int rxb_readline(struct rx_buffer *buf, int sock, void *dest_buf, size_t *dest_l
 
                         /* Aggiorno contatori e, se necessario, resetto buffer */
                         buf->bytes_received -= (to_copy + 1);
-                        if (buf->bytes_received > 0)
-                        {
+                        if (buf->bytes_received > 0) {
                                 memmove(buf->buffer, term_ptr + 1, buf->bytes_received);
                         }
 
@@ -67,8 +62,7 @@ int rxb_readline(struct rx_buffer *buf, int sock, void *dest_buf, size_t *dest_l
                 }
 
                 left = buf->size - buf->bytes_received;
-                if (left == 0)
-                {
+                if (left == 0) {
                         /* Client che malfunziona - inviato messaggio di
                          * dimensioni maggiori di MAX_REQUEST_SIZE */
                         fprintf(stderr, "Request too long!\n");
@@ -79,8 +73,7 @@ int rxb_readline(struct rx_buffer *buf, int sock, void *dest_buf, size_t *dest_l
                 cc = read(sock, buf->buffer + buf->bytes_received, left);
                 if (cc == 0)
                         return -1;
-                if (cc < 0)
-                {
+                if (cc < 0) {
                         fprintf(stderr, "Input error!\n");
                         perror("read");
                         close(sock);
@@ -95,12 +88,11 @@ int rxb_readline(struct rx_buffer *buf, int sock, void *dest_buf, size_t *dest_l
 
 int rxb_read_bytes(struct rx_buffer *buf, int sock)
 {
-        int cc = read(sock, buf->buffer + buf->bytes_received,
-                      buf->size - buf->bytes_received);
+        int cc = read(sock, buf->buffer + buf->bytes_received, 
+		      buf->size - buf->bytes_received);
         if (cc == 0)
                 return -1;
-        if (cc < 0)
-        {
+        if (cc < 0) {
                 fprintf(stderr, "Input error!\n");
                 perror("read");
                 close(sock);
@@ -127,8 +119,7 @@ uint8_t *rxb_peek(const struct rx_buffer *buf)
 
 int rxb_drop_bytes(struct rx_buffer *buf, size_t num_bytes)
 {
-        if (num_bytes > buf->bytes_received)
-        {
+        if (num_bytes > buf->bytes_received) {
                 /* nonsense request */
                 return -1;
         }
