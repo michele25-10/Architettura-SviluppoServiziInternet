@@ -193,8 +193,8 @@ int main(int argc, char **argv)
                     }
                     close(p2p3[1]);
 
-                    execlp("head", "head", "-n", n_localita, path, (char *)NULL);
-                    perror("head");
+                    execlp("sort", "sort", "-n", "-r", (char *)NULL);
+                    perror("sort");
                     exit(EXIT_FAILURE);
                 }
 
@@ -231,8 +231,8 @@ int main(int argc, char **argv)
                     }
                     close(p3p4[1]);
 
-                    execlp("sort", "sort", "-r", (char *)NULL);
-                    perror("sort");
+                    execlp("head", "head", "-n", n_localita, path, (char *)NULL);
+                    perror("head");
                     exit(EXIT_FAILURE);
                 }
 
