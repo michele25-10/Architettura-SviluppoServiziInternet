@@ -29,6 +29,6 @@ RUN printf '#!/bin/sh\nif [ "$1" = "-v" ]; then echo "Homebrew 4.0.0"; else echo
     && chmod +x /usr/local/bin/brew
 
 RUN apt-get install -y manpages manpages-dev
-RUN apt install telnet
+
 # Imposta la working directory
 WORKDIR /unix

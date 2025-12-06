@@ -1,0 +1,10 @@
+20250115|ART001|Analisi delle prestazioni di sistemi distribuiti|mario.rossi@example.com|Dipartimento Informatica Lab
+20250201|ART002|Un approccio innovativo al Machine Learning|laura.bianchi@example.com|AI Research Group
+20250312|ART003|Studio delle architetture cloud-native|giovanni.verdi@example.com|Cloud Lab
+20250130|ART004|Ottimizzazione dei sistemi operativi moderni|anna.neri@example.com|OS Research Unit
+20250220|ART005|Tecniche avanzate di crittografia post-quantum|luca.ferrari@example.com|Security Team
+20250118|ART006|Impatto delle reti 5G nell’IoT|chiara.martini@example.com|Telecom Studies
+20250305|ART007|Valutazione delle performance nei database NoSQL|paolo.gallo@example.com|Data Engineering Lab
+20250122|ART008|Metodi di scheduling avanzato su sistemi Linux|marta.rinaldi@example.com|Systems Group
+20250410|ART009|Analisi dell’energia nei sistemi embedded|fabio.costantini@example.com|Embedded Research
+20250228|ART010|Studio del protocollo HTTP/3 e QUIC|mario.rossi@example.com|Networking Lab
