@@ -68,6 +68,7 @@ int main(int argc, char **argv)
 
     for (;;)
     {
+        memset(month, 0, sizeof(month));
         puts("Inserisci il mese nel formato YYYYMM ('fine' per terminare):");
         if (fgets(month, sizeof(month), stdin) == NULL)
         {
@@ -76,12 +77,13 @@ int main(int argc, char **argv)
         }
         if (strcmp(month, "fine\n") == 0)
             break;
-        if (write_all(sd, month, strlen(month)) == -1)
+        if (write_all(sd, month, strlen(month)) < 0)
         {
             perror("write_all");
             exit(EXIT_FAILURE);
         }
 
+        memset(n, 0, sizeof(n));
         puts("Inserisci n righe in output ('fine' per terminare):");
         if (fgets(n, sizeof(n), stdin) == NULL)
         {
@@ -90,7 +92,7 @@ int main(int argc, char **argv)
         }
         if (strcmp(n, "fine\n") == 0)
             break;
-        if (write_all(sd, n, strlen(n)) == -1)
+        if (write_all(sd, n, strlen(n)) < 0)
         {
             perror("write_all");
             exit(EXIT_FAILURE);
