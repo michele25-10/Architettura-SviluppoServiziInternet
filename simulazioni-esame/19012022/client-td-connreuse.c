@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 {
     int sd, err;
     struct addrinfo hints, *res, *ptr;
-    char month[7], n[64];
+    char month[8], n[64];
     char response[1024];
     size_t len_response;
     rxb_t rxb;
