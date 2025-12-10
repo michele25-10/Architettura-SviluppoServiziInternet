@@ -1,0 +1,5 @@
+3500.50 Stipendio_mensile Mario_Rossi 2021-06-27
+4200.00 Bonus_produzione Anna_Bianchi 2021-06-15
+1800.75 Consulenza_contabile Studio_Verdi 2021-06-10
+2500.00 Overtime_reparto_tecnico Sigma_Srl 2021-06-05
+900.00 Formazione_dipendenti HR_Training 2021-06-18

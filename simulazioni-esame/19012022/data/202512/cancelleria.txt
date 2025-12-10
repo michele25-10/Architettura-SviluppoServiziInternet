@@ -1,0 +1,5 @@
+250.30 Acquisto_cartucce HP_Store 2020-09-12
+120.00 Risme_carta UfficioForniture 2020-09-08
+560.00 Toner_stampante TechInk 2020-09-22
+45.50 Penne_evidenziatori Cartoleria_Alfa 2020-09-03
+310.00 Materiale_archiviazione ArchiviaSpa 2020-09-17
