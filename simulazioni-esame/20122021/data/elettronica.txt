@@ -1,0 +1,6 @@
+799.99 Apple iPhone15 AP001
+1299.00 Apple MacBookAir AP002
+199.90 Samsung GalaxyWatch SG001
+899.50 Samsung GalaxyS23 SG002
+59.99 Logitech MouseMX LG001
+149.90 Logitech KeyboardMX LG002
