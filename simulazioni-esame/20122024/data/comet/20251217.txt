@@ -1,0 +1,4 @@
+4 Intervento a magazzino
+5 Modifica impianto luce zona vendite
+1 Modifiche DB software B2B
+20 Sviluppo SW gestionale interno
