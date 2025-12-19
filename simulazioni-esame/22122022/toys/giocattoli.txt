@@ -1,0 +1,7 @@
+50, disponibile
+25, esaurito 
+15, disponibile
+45, esaurito
+80, disponibile
+10, disponibile
+150, disponibile
